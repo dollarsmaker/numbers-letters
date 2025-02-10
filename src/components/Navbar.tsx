@@ -39,14 +39,6 @@ export default function Navbar() {
             >
               Features
             </button>
-            <a
-              href="https://github.com/yourusername/numbers-letters"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
-            >
-              GitHub
-            </a>
           </div>
 
           {/* Mobile menu button */}
