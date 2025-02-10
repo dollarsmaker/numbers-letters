@@ -53,7 +53,7 @@ export default function DemoSection({ mode }: { mode: 'standard' | 'ascii' | 'ph
           toLetters: ''
         });
       }
-    } catch (err) {
+    } catch {
       setResult({ toNumbers: 'Error', toLetters: 'Error' });
     }
   }, [currentExample, mode]);

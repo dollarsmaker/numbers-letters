@@ -5,8 +5,8 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Number-Letter Converter',
-  description: 'Convert between numbers and letters in various formats',
+  title: 'Numbers2Letters Converter',
+  description: 'Convert between numbers and letters instantly',
 };
 
 export default function RootLayout({
