@@ -1,7 +1,5 @@
 # Numbers2Letters Converter
 
-![Numbers2Letters](https://numletter.com/og-image.png)
-
 A modern, fast, and user-friendly number-to-letter converter built with Next.js and Tailwind CSS. Try it live at [numletter.com](https://numletter.com)!
 
 ## ✨ Features
