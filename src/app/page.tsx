@@ -1,15 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { convertLettersToNumber, convertNumberToLetters } from '@/utils/converters';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import DemoSection from '@/components/DemoSection';
 import ModeSwitcher from '@/components/ModeSwitcher';
+import DemoSection from '@/components/DemoSection';
+import { useState, useEffect } from 'react';
+import { convertLettersToNumber, convertNumberToLetters } from '@/utils/converters';
 
 type ConversionMode = 'standard' | 'ascii' | 'phone';
 
-export default function HomePage() {
+export default function Home() {
   const [input, setInput] = useState('');
   const [mode, setMode] = useState<ConversionMode>('standard');
   const [letterResult, setLetterResult] = useState('');
@@ -85,7 +85,6 @@ export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <Navbar />
-      <ModeSwitcher mode={mode} onModeChange={setMode} />
       
       <main className="flex-grow">
         {/* Hero Section with SEO-optimized content */}
@@ -106,33 +105,10 @@ export default function HomePage() {
           <div className="bg-white rounded-lg shadow-lg overflow-hidden">
             <div className="p-6">
               {/* Mode Selection */}
-              <div className="grid grid-cols-3 gap-4 mb-6">
-                {['standard', 'ascii', 'phone'].map((m) => (
-                  <button
-                    key={m}
-                    onClick={() => setMode(m as ConversionMode)}
-                    className={`p-4 rounded-lg border-2 transition-all ${
-                      mode === m
-                        ? 'border-blue-500 bg-blue-50 text-blue-700'
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                  >
-                    <div className="text-lg font-medium">
-                      {m === 'standard' && 'Standard (A1Z26)'}
-                      {m === 'ascii' && 'ASCII Codes'}
-                      {m === 'phone' && 'Phone Keypad'}
-                    </div>
-                    <div className="text-sm text-gray-500 mt-1">
-                      {m === 'standard' && 'A=1, B=2, ..., Z=26'}
-                      {m === 'ascii' && 'Text ↔ ASCII values'}
-                      {m === 'phone' && '2=ABC, 3=DEF, ...'}
-                    </div>
-                  </button>
-                ))}
-              </div>
-
+              <ModeSwitcher mode={mode} onModeChange={setMode} />
+              
               {/* Converter Interface */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                 {/* Input Section */}
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">

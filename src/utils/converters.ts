@@ -1,5 +1,11 @@
 type ConversionMode = 'standard' | 'ascii' | 'phone';
 
+// 判断分隔符是否为分词用的（多个空格或其他分隔符）
+const isWordSeparator = (str: string): boolean => {
+  // 只匹配多个空格，不再匹配标点符号
+  return /^\s{2,}$/.test(str);
+};
+
 export const convertLettersToNumber = (
   input: string,
   mode: ConversionMode
@@ -10,41 +16,62 @@ export const convertLettersToNumber = (
 
   switch (mode) {
     case 'standard': {
-      const letters = input.toUpperCase().replace(/[^A-Z]/g, '');
-      if (!letters) {
-        throw new Error('Please enter letters A-Z');
-      }
-      return letters
-        .split('')
-        .map(char => {
-          const code = char.charCodeAt(0) - 64;
-          return code.toString();
-        })
-        .join(' ');
+      // 使用正则表达式分割，保留所有分隔符
+      return input.split(/(\s+)/).map(part => {
+        if (isWordSeparator(part)) {
+          return part; // 保留原始分隔符
+        }
+        return part.toUpperCase()
+          .split('')
+          .map(char => {
+            if (!/[A-Z]/.test(char)) return char;
+            const code = char.charCodeAt(0) - 64;
+            return code.toString();
+          })
+          .join(' ');
+      }).join('');
     }
 
     case 'ascii':
       return input
-        .split('')
-        .map(char => char.charCodeAt(0).toString())
-        .join(' ');
+        .split(/(\s+)/)
+        .map(part => {
+          if (isWordSeparator(part)) {
+            return part; // 保留原始分隔符
+          }
+          return part
+            .split('')
+            .map(char => char.charCodeAt(0).toString())
+            .join(' ');
+        })
+        .join('');
 
     case 'phone': {
-      const reverseKeyMap: { [key: string]: string } = {
-        'A': '2', 'B': '2', 'C': '2',
-        'D': '3', 'E': '3', 'F': '3',
-        'G': '4', 'H': '4', 'I': '4',
-        'J': '5', 'K': '5', 'L': '5',
-        'M': '6', 'N': '6', 'O': '6',
-        'P': '7', 'Q': '7', 'R': '7', 'S': '7',
-        'T': '8', 'U': '8', 'V': '8',
-        'W': '9', 'X': '9', 'Y': '9', 'Z': '9'
+      const phoneKeyMap: { [key: string]: string } = {
+        'A': '2', 'B': '22', 'C': '222',
+        'D': '3', 'E': '33', 'F': '333',
+        'G': '4', 'H': '44', 'I': '444',
+        'J': '5', 'K': '55', 'L': '555',
+        'M': '6', 'N': '66', 'O': '666',
+        'P': '7', 'Q': '77', 'R': '777', 'S': '7777',
+        'T': '8', 'U': '88', 'V': '888',
+        'W': '9', 'X': '99', 'Y': '999', 'Z': '9999'
       };
-      const letters = input.toUpperCase().replace(/[^A-Z]/g, '');
-      if (!letters) {
-        throw new Error('Please enter letters A-Z');
-      }
-      return letters.split('').map(char => reverseKeyMap[char]).join('');
+      return input
+        .split(/(\s+)/)
+        .map(part => {
+          if (isWordSeparator(part)) {
+            return part; // 保留原始分隔符
+          }
+          return part.toUpperCase()
+            .split('')
+            .map(char => {
+              if (!/[A-Z]/.test(char)) return char;
+              return phoneKeyMap[char];
+            })
+            .join(' ');
+        })
+        .join('');
     }
 
     default:
@@ -62,87 +89,97 @@ export const convertNumberToLetters = (
 
   switch (mode) {
     case 'standard': {
-      // 检测连续空格的数量
-      const segments = input.split(/(\s{2,}|\s)/);
-      return segments.map(segment => {
-        if (/^\s+$/.test(segment)) {
-          // 如果是两个以上的空格，保留一个空格
-          return segment.length >= 2 ? ' ' : '';
+      const segments = input.split(/(\s+)/);
+      let result = '';
+      
+      for (const segment of segments) {
+        if (isWordSeparator(segment)) {
+          result += ' '; // 多个空格转换为单个空格
+          continue;
         }
-        if (!segment) return '';
+        if (!segment.trim()) continue;
         
-        // 处理数字部分
-        const numbers = segment.trim().split(/[,\s]+/);
-        if (!numbers.length) {
-          throw new Error('Please enter numbers between 1-26');
-        }
-        // 如果输入是一个多位数，先尝试作为一个整体处理
-        if (numbers.length === 1 && !input.includes(' ') && !input.includes(',')) {
-          const digits = numbers[0].split('');
-          const result = [];
-          for (let i = 0; i < digits.length; i++) {
-            const code = parseInt(digits[i]);
-            if (isNaN(code) || code < 1 || code > 26) {
-              throw new Error('Please enter numbers between 1-26');
-            }
-            result.push(String.fromCharCode(code + 64));
+        // 处理每个数字组
+        const numbers = segment.trim().split(/\s+/);
+        for (const num of numbers) {
+          const code = parseInt(num);
+          if (isNaN(code)) {
+            throw new Error('Please enter valid numbers');
           }
-          return result.join('');
-        }
-        // 否则按空格或逗号分隔处理
-        return numbers
-          .map(num => {
-            const code = parseInt(num);
-            if (isNaN(code) || code < 1 || code > 26) {
+          // 处理两位数
+          if (code >= 10) {
+            const tens = Math.floor(code / 10);
+            const ones = code % 10;
+            if (tens > 2 || (tens === 2 && ones > 6)) {
               throw new Error('Please enter numbers between 1-26');
             }
-            return String.fromCharCode(code + 64);
-          })
-          .join('');
-      }).join('');
+            result += String.fromCharCode(code + 64);
+          } else {
+            if (code < 1 || code > 26) {
+              throw new Error('Please enter numbers between 1-26');
+            }
+            result += String.fromCharCode(code + 64);
+          }
+        }
+      }
+      return result;
     }
 
     case 'ascii': {
-      // 支持多种分隔符或无分隔符
-      const numbers = input.trim().split(/[,\s]+|(?<=\d)(?=\d)/);
-      return numbers
-        .map(num => {
+      const segments = input.split(/(\s+)/);
+      let result = '';
+      
+      for (const segment of segments) {
+        if (isWordSeparator(segment)) {
+          result += ' '; // 多个空格转换为单个空格
+          continue;
+        }
+        if (!segment.trim()) continue;
+        
+        const numbers = segment.trim().split(/\s+/);
+        for (const num of numbers) {
           const code = parseInt(num);
           if (isNaN(code)) {
             throw new Error('Please enter valid ASCII codes');
           }
-          return String.fromCharCode(code);
-        })
-        .join('');
+          result += String.fromCharCode(code);
+        }
+      }
+      return result;
     }
 
     case 'phone': {
-      const keyMap: { [key: string]: string[] } = {
-        '2': ['A', 'B', 'C'],
-        '3': ['D', 'E', 'F'],
-        '4': ['G', 'H', 'I'],
-        '5': ['J', 'K', 'L'],
-        '6': ['M', 'N', 'O'],
-        '7': ['P', 'Q', 'R', 'S'],
-        '8': ['T', 'U', 'V'],
-        '9': ['W', 'X', 'Y', 'Z']
+      const phoneMap: { [key: string]: string } = {
+        '2': 'A', '22': 'B', '222': 'C',
+        '3': 'D', '33': 'E', '333': 'F',
+        '4': 'G', '44': 'H', '444': 'I',
+        '5': 'J', '55': 'K', '555': 'L',
+        '6': 'M', '66': 'N', '666': 'O',
+        '7': 'P', '77': 'Q', '777': 'R', '7777': 'S',
+        '8': 'T', '88': 'U', '888': 'V',
+        '9': 'W', '99': 'X', '999': 'Y', '9999': 'Z'
       };
       
-      // 移除所有非数字字符
-      const numbers = input.replace(/[^\d]/g, '').split('');
-      if (!numbers.length) {
-        throw new Error('Please enter numbers 2-9');
-      }
+      const segments = input.split(/(\s+)/);
+      let result = '';
       
-      return numbers
-        .map(num => {
-          const letters = keyMap[num];
-          if (!letters) {
-            throw new Error('Please enter numbers 2-9');
+      for (const segment of segments) {
+        if (isWordSeparator(segment)) {
+          result += ' '; // 多个空格转换为单个空格
+          continue;
+        }
+        if (!segment.trim()) continue;
+        
+        const numbers = segment.trim().split(/\s+/);
+        for (const num of numbers) {
+          const letter = phoneMap[num];
+          if (!letter) {
+            throw new Error('Invalid phone keypad code');
           }
-          return letters[0];
-        })
-        .join('');
+          result += letter;
+        }
+      }
+      return result;
     }
 
     default:

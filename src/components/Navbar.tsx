@@ -19,7 +19,7 @@ export default function Navbar() {
         <div className="flex justify-between h-16">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-              <span className="text-xl font-bold text-blue-600">Numbers2Letters</span>
+              <span className="text-xl font-bold text-blue-600">NumLetter</span>
             </div>
           </div>
           

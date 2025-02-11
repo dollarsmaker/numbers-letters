@@ -21,30 +21,6 @@ A modern, fast, and user-friendly number-to-letter converter built with Next.js 
 - [TypeScript](https://www.typescriptlang.org/) - Type safety
 - [React](https://reactjs.org/) - UI library
 
-## 🚀 Getting Started
-
-1. Clone the repository:
-```bash
-git clone https://github.com/dollarsmaker/numbers-letters.git
-cd numbers-letters
-```
-
-2. Install dependencies:
-```bash
-npm install
-# or
-yarn install
-```
-
-3. Run the development server:
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
-
 ## 📖 Usage Examples
 
 ### Standard Mode (A1Z26)
@@ -71,16 +47,6 @@ Input: 4 33 555 555 666
 Output: HELLO
 ```
 
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -89,8 +55,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - Website: [numletter.com](https://numletter.com)
 - Email: support@numletter.com
-- GitHub: [@dollarsmaker](https://github.com/dollarsmaker)
-
-## ⭐ Support
-
-If you find this project useful, please consider giving it a star on GitHub!

@@ -6,32 +6,48 @@ interface ModeSwitcherProps {
 }
 
 const modes = [
-  { id: 'standard', icon: '🔤', label: 'Standard' },
-  { id: 'ascii', icon: '💻', label: 'ASCII' },
-  { id: 'phone', icon: '📱', label: 'Phone' },
+  {
+    id: 'standard',
+    icon: '🔤',
+    label: 'Standard (A1Z26)',
+    description: 'Convert using A=1, B=2, ... Z=26'
+  },
+  {
+    id: 'ascii',
+    icon: '💻',
+    label: 'ASCII',
+    description: 'Convert using ASCII character codes'
+  },
+  {
+    id: 'phone',
+    icon: '📱',
+    label: 'Phone Keypad',
+    description: 'Convert using phone keypad numbers'
+  },
 ];
 
 export default function ModeSwitcher({ mode, onModeChange }: ModeSwitcherProps) {
   return (
-    <div className="fixed right-4 top-1/2 transform -translate-y-1/2 z-50">
-      <div className="bg-white shadow-lg rounded-full py-2 px-1">
-        <div className="space-y-4">
-          {modes.map((m) => (
-            <button
-              key={m.id}
-              onClick={() => onModeChange(m.id as 'standard' | 'ascii' | 'phone')}
-              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${
-                mode === m.id
-                  ? 'bg-blue-500 text-white shadow-md transform scale-110'
-                  : 'hover:bg-gray-100'
-              }`}
-              title={m.label}
-            >
-              <span className="text-xl">{m.icon}</span>
-            </button>
-          ))}
-        </div>
-      </div>
+    <div className="flex flex-col sm:flex-row gap-3">
+      {modes.map((m) => (
+        <button
+          key={m.id}
+          onClick={() => onModeChange(m.id as 'standard' | 'ascii' | 'phone')}
+          className={`flex-1 p-4 rounded-lg border-2 transition-all text-left ${
+            mode === m.id
+              ? 'border-blue-500 bg-blue-50 text-blue-700'
+              : 'border-gray-200 hover:border-gray-300'
+          }`}
+        >
+          <div className="flex items-start gap-2">
+            <span className="text-xl">{m.icon}</span>
+            <div>
+              <div className="font-medium leading-none">{m.label}</div>
+              <div className="text-sm text-gray-500 mt-1 leading-tight">{m.description}</div>
+            </div>
+          </div>
+        </button>
+      ))}
     </div>
   );
 }
