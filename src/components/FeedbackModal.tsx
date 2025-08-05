@@ -107,7 +107,7 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
 
           {submitStatus === 'success' && (
             <div className="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded">
-              Thank you for your feedback! We'll carefully consider your suggestions.
+              Thank you for your feedback! We&apos;ll carefully consider your suggestions.
             </div>
           )}
 
