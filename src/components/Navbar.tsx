@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import FeedbackButton from './FeedbackButton';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,7 +25,7 @@ export default function Navbar() {
           </div>
           
           {/* Desktop menu */}
-          <div className="hidden sm:flex sm:items-center sm:space-x-8">
+          <div className="hidden sm:flex sm:items-center sm:space-x-6">
             <button
               onClick={() => scrollToSection('examples')}
               className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
@@ -37,6 +38,7 @@ export default function Navbar() {
             >
               Features
             </button>
+            <FeedbackButton />
           </div>
 
           {/* Mobile menu button */}
@@ -98,6 +100,9 @@ export default function Navbar() {
             >
               Features
             </button>
+            <div className="px-3 py-2">
+              <FeedbackButton />
+            </div>
             <a
               href="https://github.com/yourusername/numbers-letters"
               target="_blank"
