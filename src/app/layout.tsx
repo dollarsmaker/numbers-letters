@@ -5,6 +5,9 @@ import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
+// GTM ID - 请替换为你的 GTM 容器 ID
+const GTM_ID = 'GTM-KFWC5ZG6';
+
 export const metadata: Metadata = {
   title: 'Numbers to Letters | Free Online Converter',
   description: 'Convert numbers to letters instantly with our free online converter. Support multiple formats including A1Z26, ASCII, and phone keypad notation.',
@@ -53,28 +56,40 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Google Tag Manager */}
         <Script
+          id="gtm-script"
           strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=G-M3MZ4B3LQY"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','${GTM_ID}');
+            `,
+          }}
         />
-        <Script
-          id="google-analytics"
-          strategy="afterInteractive"
-        >
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-M3MZ4B3LQY');
-          `}
-        </Script>
+
         {/*adsense*/}
         <script async
                 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9280823005138577"
                 crossOrigin="anonymous">
         </script>
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+          />
+        </noscript>
+
+        {children}
+      </body>
     </html>
   );
 }

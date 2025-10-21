@@ -142,7 +142,7 @@ export default function Home() {
                   <textarea
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    className="w-full h-64 p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full h-64 p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-gray-900"
                     placeholder="Enter text or numbers to convert..."
                   />
                   <div className="text-sm text-gray-500">
@@ -185,8 +185,8 @@ export default function Home() {
                               Copy
                             </button>
                           </div>
-                          <div className="p-3 bg-gray-50 rounded-md font-mono text-sm">
-                            {letterResult || 'No output'}
+                          <div className="p-3 bg-gray-50 rounded-md font-mono text-sm text-gray-900">
+                            {letterResult || <span className="text-gray-400">No output</span>}
                           </div>
                         </div>
                         <div className="space-y-2">
@@ -199,8 +199,8 @@ export default function Home() {
                               Copy
                             </button>
                           </div>
-                          <div className="p-3 bg-gray-50 rounded-md font-mono text-sm">
-                            {numberResult || 'No output'}
+                          <div className="p-3 bg-gray-50 rounded-md font-mono text-sm text-gray-900">
+                            {numberResult || <span className="text-gray-400">No output</span>}
                           </div>
                         </div>
                       </>
@@ -223,9 +223,9 @@ export default function Home() {
                   <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 text-sm">
                     {Array.from({ length: 26 }, (_, i) => (
                       <div key={i} className="flex items-center justify-center p-2 bg-white rounded border border-gray-200">
-                        <span className="font-medium">{String.fromCharCode(65 + i)}</span>
+                        <span className="font-medium text-gray-900">{String.fromCharCode(65 + i)}</span>
                         <span className="text-gray-400 mx-1">=</span>
-                        <span className="font-mono">{i + 1}</span>
+                        <span className="font-mono text-gray-900">{i + 1}</span>
                       </div>
                     ))}
                   </div>
@@ -234,9 +234,9 @@ export default function Home() {
                   <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 text-sm">
                     {['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'].map((char) => (
                       <div key={char} className="flex items-center justify-center p-2 bg-white rounded border border-gray-200">
-                        <span className="font-medium">{char}</span>
+                        <span className="font-medium text-gray-900">{char}</span>
                         <span className="text-gray-400 mx-1">=</span>
-                        <span className="font-mono">{char.charCodeAt(0)}</span>
+                        <span className="font-mono text-gray-900">{char.charCodeAt(0)}</span>
                       </div>
                     ))}
                   </div>
@@ -254,9 +254,9 @@ export default function Home() {
                       { key: '9', value: 'WXYZ' },
                     ].map((item) => (
                       <div key={item.key} className="flex items-center justify-center p-2 bg-white rounded border border-gray-200">
-                        <span className="font-medium">{item.key}</span>
+                        <span className="font-medium text-gray-900">{item.key}</span>
                         <span className="text-gray-400 mx-1">=</span>
-                        <span className="font-mono">{item.value}</span>
+                        <span className="font-mono text-gray-900">{item.value}</span>
                       </div>
                     ))}
                   </div>
