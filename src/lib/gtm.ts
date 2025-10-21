@@ -3,8 +3,15 @@
 
 type GTMEvent = {
   event: string;
-  [key: string]: any;
+  [key: string]: string | number | boolean | undefined;
 };
+
+// 扩展 Window 接口以包含 dataLayer
+declare global {
+  interface Window {
+    dataLayer?: GTMEvent[];
+  }
+}
 
 /**
  * 发送自定义事件到 Google Tag Manager
@@ -17,8 +24,8 @@ type GTMEvent = {
  * })
  */
 export const gtmEvent = (event: GTMEvent) => {
-  if (typeof window !== 'undefined' && (window as any).dataLayer) {
-    (window as any).dataLayer.push(event);
+  if (typeof window !== 'undefined' && window.dataLayer) {
+    window.dataLayer.push(event);
   }
 };
 
